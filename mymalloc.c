@@ -26,7 +26,7 @@ void* mymalloc(unsigned int size)
 		{
 			p = p->succ;
 		}
-		else if (p->size < (size * sizeof(struct memEntry)))
+		else if (p->size < (size + sizeof(struct memEntry)))
 		{
 			p->isFree = 0;
 			return (char *)p + sizeof(struct memEntry);
@@ -36,7 +36,7 @@ void* mymalloc(unsigned int size)
 			succ = (struct memEntry *)((char *)p + sizeof(struct memEntry)+size);
 			succ->prev = p;
 			succ->succ = p->succ;
-			if (p->succ == 0)
+			if (p->succ != 0)
 			{
 				p->succ->prev = succ;
 			}
@@ -70,7 +70,7 @@ void* mymalloc(unsigned int size)
 		p->isFree = 0;
 		last->succ = p;
 		last = p;
-		return p + 1;
+		return (void*) (p + 1);
 	}
 	return 0;
 }
