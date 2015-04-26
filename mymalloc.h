@@ -5,6 +5,9 @@
 #include <string.h>
 #include <stdlib.h>
 
+#define malloc( x ) mymalloc( x, __FILE__, __LINE__ )
+#define free( x ) myfree( x, __FILE__, __LINE__ )
+
 struct memEntry{
 	struct memEntry *prev, *succ;
 	int isFree;
@@ -12,7 +15,7 @@ struct memEntry{
 };
 
 
-void* mymalloc(unsigned int size);
+void* mymalloc(unsigned int size,char* file, int line);
 
 void myfree(void *p);
 

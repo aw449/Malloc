@@ -1,13 +1,13 @@
 #include "mymalloc.h"
 #define blocksize (1024 * 1024)
-
+static struct memEntry *root;
 static char bigblock[blocksize];
 
 
-void* mymalloc(unsigned int size)
+void* mymalloc(unsigned int size,char* file, int line)
 {
 	static int initialized = 0;
-	static struct memEntry *root, *last;
+	static struct memEntry *last;
 	struct memEntry *p, *succ;
 
 	if(!initialized){
@@ -75,9 +75,35 @@ void* mymalloc(unsigned int size)
 	return 0;
 }
 
-void myfree(void *p)
+void myfree(void *p, char* file, int line)
 {
 	struct memEntry *ptr, *pred, *succ;
+
+	/*
+	 * Error Checking
+	 */
+	//Check to see if ptr exists
+	ptr = root;
+	while((ptr != 0)){
+		if(ptr == p){
+			break;
+		}
+		else{
+			ptr = ptr ->succ;
+		}
+	}
+		//If ptr does not exist in memory, error
+		if(ptr == 0){
+			printf("Attempting to free unallocated pointer in %s at line $d. \n ",file,line);
+					return;
+		}
+		//If there is a redundant free somehow
+		if(ptr->isFree){
+			printf("Pointer has already been freed in %s at line %d \n",file,line);
+		}
+
+
+		//Do the free BKR's code.  Do not touch. Do not Feed.
 	ptr = (struct memEntry*)((char *)p - sizeof(struct memEntry));
 	if ((pred = ptr->prev) != 0 && pred->isFree)
 	{
