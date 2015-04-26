@@ -72,6 +72,8 @@ void* mymalloc(unsigned int size,char* file, int line)
 		last = p;
 		return (void*) (p + 1);
 	}
+
+	printf("Memory block saturated cannot allocate space");
 	return 0;
 }
 
@@ -85,7 +87,7 @@ void myfree(void *p, char* file, int line)
 	//Check to see if ptr exists
 	ptr = root;
 	while((ptr != 0)){
-		if(ptr == p){
+		if((ptr+1) == p){
 			break;
 		}
 		else{
@@ -94,7 +96,7 @@ void myfree(void *p, char* file, int line)
 	}
 		//If ptr does not exist in memory, error
 		if(ptr == 0){
-			printf("Attempting to free unallocated pointer in %s at line $d. \n ",file,line);
+			printf("Attempting to free unallocated pointer in %s at line %d. \n ",file,line);
 					return;
 		}
 		//If there is a redundant free somehow
@@ -135,9 +137,9 @@ int main(int argc, char** argv)
 {
 
 	char *string;
-	string = (char *)mymalloc(sizeof(char)*8);
+	string = (char *) malloc(sizeof(char)*8);
 	memcpy(string, "hello", 6);
 	printf("%s\n", string);
-	myfree(string);
+	free(string);
 	return 0;
 }
