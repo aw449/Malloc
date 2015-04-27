@@ -2,13 +2,18 @@
 #define blocksize (1024 * 1024)
 static struct memEntry *root;
 static char bigblock[blocksize];
-
+static int freespace = blocksize; //used to check saturation
 
 void* mymalloc(unsigned int size,char* file, int line)
 {
 	static int initialized = 0;
 	static struct memEntry *last;
 	struct memEntry *p, *succ;
+
+	if(size > freespace){
+		printf("Attempting to allocate something larger than the block in %s, at line %d",file,line);
+		return 0;
+	}
 
 	if(!initialized){
 		root = (struct memEntry*)bigblock;
@@ -17,18 +22,21 @@ void* mymalloc(unsigned int size,char* file, int line)
 		root->size = blocksize - sizeof(struct memEntry);
 		root->isFree = 1;
 		initialized = 1;
+		freespace -= sizeof(struct memEntry);
+
+
 	}
 
 	p = root;
 	int foundSpace = 0;
 	int range = size * 1.5;
-	/*
+	/*Locates proper block to store data
 	 * Use best fit algorithm if block size is roughly between size and 1.5 size
 	 * If we could only find much larger blocks we use the first fit algorithm ie:
 	 * first come first serve
 	 */
 	while(1){
-		//if we reached the end and last exists
+		//If p points to NULL means that we found either unallocated space or the end of the list
 	if(p == 0){
 		if(last !=0){
 			//if we found a larger less optimal block; we use first fit algorithm
@@ -59,7 +67,7 @@ void* mymalloc(unsigned int size,char* file, int line)
 		p = p->succ;
 	}
 
-//BKR's algo
+//Does the actual malloc
 	do{
 		if (p->size < size || !p->isFree)
 		{
@@ -68,6 +76,8 @@ void* mymalloc(unsigned int size,char* file, int line)
 		else if (p->size < (size + sizeof(struct memEntry)))
 		{
 			p->isFree = 0;
+			freespace -= size;
+
 			return (char *)p + sizeof(struct memEntry);
 		}
 		else
@@ -84,6 +94,9 @@ void* mymalloc(unsigned int size,char* file, int line)
 			succ->isFree = 1;
 			p->size = size;
 			p->isFree = 0;
+
+			freespace -= (size+sizeof(struct memEntry));
+
 			return (char *)p + sizeof(struct memEntry);
 
 		}
@@ -100,6 +113,8 @@ void* mymalloc(unsigned int size,char* file, int line)
 		p->size = 0;
 		p->isFree = 0;
 		root = last = p;
+		freespace -= (size+sizeof(struct memEntry));
+
 		return (char *)p + sizeof(struct memEntry);
 	}
 	else
@@ -110,6 +125,8 @@ void* mymalloc(unsigned int size,char* file, int line)
 		p->isFree = 0;
 		last->succ = p;
 		last = p;
+		freespace -= (size+sizeof(struct memEntry));
+
 		return (void*) (p + 1);
 	}
 
@@ -142,6 +159,7 @@ void myfree(void *p, char* file, int line)
 		//If there is a redundant free somehow
 		if(ptr->isFree){
 			printf("Pointer has already been freed in %s at line %d \n",file,line);
+			return;
 		}
 
 
@@ -149,6 +167,8 @@ void myfree(void *p, char* file, int line)
 	ptr = (struct memEntry*)((char *)p - sizeof(struct memEntry));
 	if ((pred = ptr->prev) != 0 && pred->isFree)
 	{
+		freespace += sizeof(struct memEntry) + ptr->size;
+
 		pred->size += sizeof(struct memEntry) + ptr->size;
 		pred->succ = ptr->succ;
 		if(ptr->succ != 0)
@@ -158,11 +178,15 @@ void myfree(void *p, char* file, int line)
 	}
 	else
 	{
+		freespace += ptr->size;
+
 		ptr->isFree = 1;
 		pred = ptr;
 	}
 	if ((succ = ptr->succ) != 0 && (succ->isFree))
 	{
+		freespace += sizeof(struct memEntry);
+
 		pred->size += sizeof(struct memEntry) + succ->size;
 		pred->succ = succ->succ;
 		if (succ->succ != 0)
@@ -171,15 +195,6 @@ void myfree(void *p, char* file, int line)
 		}
 
 	}
+	return;
 }
 
-int main(int argc, char** argv)
-{
-
-	char *string;
-	string = (char *) malloc(sizeof(char)*8);
-	memcpy(string, "hello", 6);
-	printf("%s\n", string);
-	free(string);
-	return 0;
-}
