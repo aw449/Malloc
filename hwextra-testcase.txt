@@ -22,7 +22,8 @@ In the file FragTest.c we if we have an effective fragmentation policy.  To test
 
 First we allocate the first 215 blocks of space.  Leaving a free block of 5 at the very end.  Next, we free a chunk of 25 somewhere in the middle of the block.  The memory block would appear like so:
 	H stands for Header with a size of 24
-	Root - H - 25 Used- H- 25 Used -  H - 25 Free - H - 20 Used - H - 5 Free
+
+Root - H - 25 Used- H- 25 Used -  H - 25 Free - H - 20 Used - H - 5 Free
 
 We then allocate a block of size 5 and then a block of size 25.  As per the best fit policy, the block of 5 should go to block of size 5 and thus leaving enough room for the block of 25.  If this fails, the block of 25 would fail to be allocated. 
 
@@ -30,6 +31,10 @@ Expected Output:
 None
 If the test fails, a Out of Space Error should be outputted meaning that our fragmentation policy failed.
 
+---------------------------------------------------------------------------------------------------------------------
+Robust Testing
+---------------------------------------------------------------------------------------------------------------------
 
+To thoroughly test our code, we ran the test cases through other programming assignments where memory would often be manipulated.  We chose test PA2 with our malloc implementation.  
 
 
