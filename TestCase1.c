@@ -1,7 +1,7 @@
 
 
 
-
+/*
 #include "mymalloc.h"
 #include <string.h>
 
@@ -42,3 +42,5 @@ int main(int argc, char** argv) {
     p = (char*)malloc(1024*1024 - 23);
     return 0;
 }
+
+*/

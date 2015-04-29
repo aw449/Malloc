@@ -1,5 +1,5 @@
 #include "mymalloc.h"
-#define blocksize (1024 * 1024)
+#define blocksize (230)
 static struct memEntry *root;
 static char bigblock[blocksize];
 static int freespace = blocksize; //used to check saturation
@@ -10,6 +10,11 @@ void* mymalloc(unsigned int size,char* file, int line)
 	static struct memEntry *last;
 	struct memEntry *p, *succ;
 
+	if(size < 0){
+		printf("Attempting to allocate negative space in %s, line %d\n",file,line);
+		return 0;
+	}
+	
 	if(size > freespace){
 		printf("Attempting to allocate something larger than the block in %s, at line %d",file,line);
 		return 0;
@@ -28,53 +33,51 @@ void* mymalloc(unsigned int size,char* file, int line)
 	}
 
 	p = root;
-	int foundSpace = 0;
-	int range = size * 1.5;
+
+	int range = (size * 1.5);
+	struct memEntry *temp = root;
+	struct memEntry *min = root;
+	
 	/*Locates proper block to store data
 	 * Use best fit algorithm if block size is roughly between size and 1.5 size
 	 * If we could only find much larger blocks we use the first fit algorithm ie:
 	 * first come first serve
 	 */
-	while(1){
+	while(p!=0){
 		//If p points to NULL means that we found either unallocated space or the end of the list
-	if(p == 0){
-		if(last !=0){
-			//if we found a larger less optimal block; we use first fit algorithm
-			if(foundSpace == 1){
-				p = root;
-				break;
-			}
-			//if we didn't find a block within the free space we look for uninitialized space
-			p = last;
-			break;
-		}
-		else{
-			//we only just initialized so we do first fit as normal
-			p = root;
-			break;
-		}
-	}
 
-		if(p -> isFree){
-			if((p->size > range)){
-			foundSpace = 1;
-			}
-			else if(p->size <= range && p->size >= size){
-				break;
+		if(((p->size) < (min->size)) && p->isFree){
+			min = p;
+		}
+
+		if(p->size <= range && p->size >= size && p->isFree){
+
+			if((p->size)<(temp->size)){
+				temp = p;
 			}
 
 		}
 		p = p->succ;
 	}
 
+	p = temp;
+	if(temp == root){
+		p = min;
+	}
+
+
+
 //Does the actual malloc
 	do{
 		if (p->size < size || !p->isFree)
 		{
+
 			p = p->succ;
 		}
 		else if (p->size < (size + sizeof(struct memEntry)))
 		{
+			
+
 			p->isFree = 0;
 			freespace -= size;
 
@@ -82,6 +85,7 @@ void* mymalloc(unsigned int size,char* file, int line)
 		}
 		else
 		{
+			
 			succ = (struct memEntry *)((char *)p + sizeof(struct memEntry)+size);
 			succ->prev = p;
 			succ->succ = p->succ;
@@ -101,7 +105,9 @@ void* mymalloc(unsigned int size,char* file, int line)
 
 		}
 	} while (p != 0);
-
+	printf("Out of space in %s, line %d\n",file,line);
+	return 0 ;
+	/*
 	if ((p = (struct memEntry *)sbrk(sizeof(struct memEntry) * size)) == (void *)-1)
 	{
 		printf("Memory has been saturated at %s at line %d \n",file,line);
@@ -109,6 +115,7 @@ void* mymalloc(unsigned int size,char* file, int line)
 	}
 	else if (last == 0)
 	{
+
 		p->prev = p->prev->succ = 0;
 		p->size = 0;
 		p->isFree = 0;
@@ -119,6 +126,7 @@ void* mymalloc(unsigned int size,char* file, int line)
 	}
 	else
 	{
+
 		p->prev = last;
 		p->succ = last->prev;
 		p->size = size;
@@ -129,9 +137,9 @@ void* mymalloc(unsigned int size,char* file, int line)
 
 		return (void*) (p + 1);
 	}
+*/
 
-
-	return 0;
+	
 }
 
 void myfree(void *p, char* file, int line)
