@@ -1,0 +1,35 @@
+---------------------------------------------------------------------------------------------------------------------
+Basic Functionality 
+---------------------------------------------------------------------------------------------------------------------
+To test basic functionality of our implementation we devised a test program  TestCase1.c which tests common mistakes in memory management.  TestCase1.c takes in any integer argument 
+which specifies a size to be allocated.  The assumed available block size is 1024*1024 
+
+1. Freeing pointers that were never allocated
+2. Freeing pointers that were never returned from malloc
+3. Redundant freeing
+4. Allocating a size larger than available 
+
+Expected Output:
+The expected output for these 4 test cases should be
+Attempting to free unallocated pointer in TestCase1.c at line 25.
+Attempting to free unallocated pointer in TestCase1.c at line 27.
+Pointer has already been freed in TestCase1.c at line 30
+Attempting to allocate something larger than the block in TestCase1.c, at line 42
+---------------------------------------------------------------------------------------------------------------------
+Fragmentation and Saturation 	
+---------------------------------------------------------------------------------------------------------------------
+In the file FragTest.c we if we have an effective fragmentation policy.  To test with a reasonable amount of lines with assume a  minimum block size of 220; the exact size needed to fit our allocations.
+
+First we allocate the first 215 blocks of space.  Leaving a free block of 5 at the very end.  Next, we free a chunk of 25 somewhere in the middle of the block.  The memory block would appear like so:
+	H stands for Header with a size of 24
+	Root - H - 25 Used- H- 25 Used -  H - 25 Free - H - 20 Used - H - 5 Free
+
+We then allocate a block of size 5 and then a block of size 25.  As per the best fit policy, the block of 5 should go to block of size 5 and thus leaving enough room for the block of 25.  If this fails, the block of 25 would fail to be allocated. 
+
+Expected Output:
+None
+If the test fails, a Out of Space Error should be outputted meaning that our fragmentation policy failed.
+
+
+
+
