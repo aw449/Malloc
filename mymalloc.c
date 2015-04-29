@@ -1,5 +1,5 @@
 #include "mymalloc.h"
-#define blocksize (230)
+#define blocksize (1024*1024)
 static struct memEntry *root;
 static char bigblock[blocksize];
 static int freespace = blocksize; //used to check saturation
