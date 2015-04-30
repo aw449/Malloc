@@ -3,6 +3,7 @@ Anthony Wong
 
 #Malloc
 Compilation Instructions
+make compiles all 3 test cases
 make test1 Test Basic test cases
 make testf Test Fragmentation 
 make testsl Test Sorted List with mymalloc
