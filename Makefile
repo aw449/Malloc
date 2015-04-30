@@ -13,7 +13,7 @@ test1: mymalloc.o TestCase1.o
 testf: mymalloc.o FragTest.o
 	$(COMPILER) $(CCFLAGS) mymalloc.o FragTest.o  -o mymallocfrag
 
-testsl: mymalloc.o Node.o sorted-list.o
+testsl: mymalloc.o Node.o sorted-list.o pa2_test.o 
 	$(COMPILER) $(CCFLAGS) mymalloc.o pa2_test.o sorted-list.o Node.o -o mymallocedlist
 
 mymalloc.o: mymalloc.c mymalloc.h

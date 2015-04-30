@@ -1,0 +1,81 @@
+
+
+Note: No expected output for test cases 1-5, if correct.
+
+Test case 1: Create an empty List, create an iterator, and then destroy them
+	Error: no iter returned by SLCreateIterator
+Note: No expected output for test cases 1-5, if correct.
+
+Test case 2: Insert/remove an item from a null list
+
+Note: No expected output for test cases 1-5, if correct.
+
+Test case 3: Create a new iterator on an empty list and iterate 
+
+Note: No expected output for test cases 1-5, if correct.
+
+Test case 4: SLInsert(list, item) into list twice and check return value: 
+
+Note: No expected output for test cases 1-5, if correct.
+
+Test case 5: SLRemove(list, item) twice and check return value: 
+
+Test case 6: Create and interate through a list with multiple ints: 
+	Test6: Iter got 5
+	Test6: Iter got 4
+	Test6: Iter got 3
+	Test6: Iter got 2
+	Test6: Iter got 1
+
+Test case 7: Create and interate through a list with multiple strs: 
+	Test7: Iter got Echo
+	Test7: Iter got Delta
+	Test7: Iter got Charlie
+	Test7: Iter got Bravo
+	Test7: Iter got Alpha
+
+Test case 8: Create and interate through a list with multiple doubles: 
+	Test8: Iter got 4.400000
+	Test8: Iter got 3.300000
+	Test8: Iter got 2.200000
+	Test8: Iter got -1.100000
+	Test8: Iter got -5.500000
+
+Test case 9: Create a lot of iterators on a single list: 
+	Test9a: Iter got Alpha
+
+	Test9b: Iter got Bravo
+	Test9b: Iter got Alpha
+
+	Test9c: Iter got Charlie
+	Test9c: Iter got Bravo
+	Test9c: Iter got Alpha
+
+	Test9d: Iter got Delta
+	Test9d: Iter got Charlie
+	Test9d: Iter got Bravo
+	Test9d: Iter got Alpha
+
+	Test9e: Iter got Echo
+	Test9e: Iter got Delta
+	Test9e: Iter got Charlie
+	Test9e: Iter got Bravo
+	Test9e: Iter got Alpha
+
+
+Test case 10: Check if destructor function is called at the correct time: 
+	Destoy function should not be called here: 
+	Destoy function should be called here: DESTROY FUNCTION CALLED
+
+	Destoy function should not be called here: 
+	Destoy function should be called here: 
+	Destoy function should be called here: DESTROY FUNCTION CALLED
+
+Test case 11: Check if iterator correctly handles removed elements: 
+	Test11a: Iter got 5
+	Test11a: Iter got 2
+	Test11a: Iter got 1
+
+	Test11b: Iter got 4
+	Test11b: Iter got 2
+	Test11b: Iter got 1
