@@ -1,9 +1,9 @@
 Allen Tung
 Anthony Wong
 
-Malloc
+#Malloc
 Functionality & Design
-For this assignment we were required to implement error checking and functionality from the algorithm presented in CS214's lecture.  Firstly, to improve and decrease fragmentation errors, we changed the memory allocation algorithm's first fit policy, wherein the first available free block is chosen, to a best fit policy, where we locate the block that is the smallest acceptable size for the block.  Our range set is between the size of the block to 1.5 times the size of the block.  If that cannot be found, we choose the smallest block that is available.    
+For this assignment we were required to implement error checking and functionality from the algorithm presented in CS214's lecture.  Firstly, to improve and decrease fragmentation errors, we changed the memory allocation algorithm's first fit policy, wherein the first available free block is chosen, to a best fit policy, where we locate the block that is the smallest acceptable size for the block.  Our range set is between the size of the block to 1.5 times the size of the block.  If that cannot be found, we choose the smallest block that is available.  We do not check for leaks in our malloc and assume that the programmer will follow good practice and always clean up allocated memory.  
 
 Error Checks
 In all our error checks, we output both the file name and line number where the error was triggered.  In malloc we had implemented several simple error checks.  If the user were to input a negative value we return an NULL pointer and an error message.  Secondly, we have a variable that keeps track of the total available free space regardless of whether they are adjacent blocks or not.  If the user inputs a value that is larger than the free space we output an error and return null.  In the free implementation we needed safeguards against freeing of non-dynamic memory, memory not allocated by malloc, as well as redundant calls to free.  To solve this we added in a simple loop that would locate the pointer to memory that matched the pointer we wanted to free.  If it is not found then we throw an error, solving the first two problems.  Also, if it is found but the flag isFree has already been raised then, we throw an error as well solving the redundant free error.

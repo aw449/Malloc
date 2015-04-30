@@ -109,38 +109,6 @@ void* mymalloc(unsigned int size,char* file, int line)
 
 	printf("Out of space in %s, line %d\n",file,line);
 	return 0 ;
-	/*
-	if ((p = (struct memEntry *)sbrk(sizeof(struct memEntry) * size)) == (void *)-1)
-	{
-		printf("Memory has been saturated at %s at line %d \n",file,line);
-		return 0;
-	}
-	else if (last == 0)
-	{
-
-		p->prev = p->prev->succ = 0;
-		p->size = 0;
-		p->isFree = 0;
-		root = last = p;
-		freespace -= (size+sizeof(struct memEntry));
-
-		return (char *)p + sizeof(struct memEntry);
-	}
-	else
-	{
-
-		p->prev = last;
-		p->succ = last->prev;
-		p->size = size;
-		p->isFree = 0;
-		last->succ = p;
-		last = p;
-		freespace -= (size+sizeof(struct memEntry));
-
-		return (void*) (p + 1);
-	}
-*/
-
 	
 }
 
