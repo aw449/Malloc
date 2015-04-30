@@ -13,7 +13,7 @@
 int main(int argc, char** argv) {
 	char *a,*b,*c,*d,*e,*f,*g;
 	//memEntry has size
-	g = (char*) malloc(1024*1024 - 220);
+	g = (char*) malloc((1024*1024 - 244));
 	a = (char*) malloc(25);
 	b = (char*) malloc(25);
 	c = (char*) malloc(25);
