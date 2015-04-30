@@ -1,13 +1,3 @@
-
----------------------------------------------------------------------------------------------------------------------
-Compilation Instructions
----------------------------------------------------------------------------------------------------------------------
-make compiles all 3 test cases
-make test1 Test Basic test cases
-make testf Test Fragmentation 
-make testsl Test Sorted List with mymalloc
-
-
 ---------------------------------------------------------------------------------------------------------------------
 Basic Functionality 
 ---------------------------------------------------------------------------------------------------------------------
@@ -25,6 +15,7 @@ Attempting to free unallocated pointer in TestCase1.c at line 25.
 Attempting to free unallocated pointer in TestCase1.c at line 27.
 Pointer has already been freed in TestCase1.c at line 30
 Attempting to allocate something larger than the block in TestCase1.c, at line 42
+
 ---------------------------------------------------------------------------------------------------------------------
 Fragmentation and Saturation 	
 ---------------------------------------------------------------------------------------------------------------------
@@ -49,4 +40,21 @@ To thoroughly test our code, we ran the test cases through other programming ass
 There are no malloc or free error messages that appear in file thus showing that our malloc and free implementation is suitable for large programs.
 
 
+---------------------------------------------------------------------------------------------------------------------
+Making
+---------------------------------------------------------------------------------------------------------------------
+To make each individual test case, run respectively, 
+make test1
+make testf
+make testsl
 
+To clean each individual test case, run respectively,
+make clean_test1
+make clean_testf
+make clean_testsl
+
+Of course, running make by itself will produce every test program available. 
+The executables are called, respectively, 
+mymalloc
+mymallocfrag
+mymallocedlist
