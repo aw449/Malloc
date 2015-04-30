@@ -7,7 +7,6 @@ static int freespace = blocksize; //used to check saturation
 void* mymalloc(unsigned int size,char* file, int line)
 {
 	static int initialized = 0;
-	static struct memEntry *last;
 	struct memEntry *p, *succ;
 
 	if(size < 0){
@@ -105,6 +104,9 @@ void* mymalloc(unsigned int size,char* file, int line)
 
 		}
 	} while (p != 0);
+
+
+
 	printf("Out of space in %s, line %d\n",file,line);
 	return 0 ;
 	/*
