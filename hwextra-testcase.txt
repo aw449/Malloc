@@ -35,6 +35,8 @@ If the test fails, a Out of Space Error should be outputted meaning that our fra
 Robust Testing
 ---------------------------------------------------------------------------------------------------------------------
 
-To thoroughly test our code, we ran the test cases through other programming assignments where memory would often be manipulated.  We chose test PA2 with our malloc implementation.  
+To thoroughly test our code, we ran the test cases through other programming assignments where memory would often be manipulated.  We chose to test PA2 with our malloc implementation.  We utilized the test cases given when grading the assignment.  The output is recorded in the file SLTESTOUTPUT.txt.  
+There are no malloc or free error messages that appear in file thus showing that our malloc and free implementation is suitable for large programs.
+
 
 
