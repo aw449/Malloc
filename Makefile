@@ -1,13 +1,11 @@
 COMPILER = gcc
 FLAGS = -Wall -Werror -g
-OBJECTS = mymalloc.o TestCase1.o FragTest.o Node.o sorted-list.o
+OBJECTS = mymalloc.o TestCase1.o FragTest.o Node.o sorted-list.o pa2_test.o
 
 all: $(OBJECTS)
 	$(COMPILER) $(CCFLAGS) mymalloc.o TestCase1.o  -o mymalloc
 	$(COMPILER) $(CCFLAGS) mymalloc.o FragTest.o  -o mymallocfrag
-	ar -rcs libsl.a Node.o sorted-list.o
-	$(COMPILER) $(CCFLAGS) mymalloc.o  pa2_test.o -L libsl.a -o mymallocedlist
-
+	$(COMPILER) $(CCFLAGS) mymalloc.o pa2_test.o -L libsl.a -o mymallocedlist
 
 test1: mymalloc.o TestCase1.o
 	$(COMPILER) $(CCFLAGS) mymalloc.o TestCase1.o  -o mymalloc
@@ -16,8 +14,7 @@ testf: mymalloc.o FragTest.o
 	$(COMPILER) $(CCFLAGS) mymalloc.o FragTest.o  -o mymallocfrag
 
 testsl: mymalloc.o Node.o sorted-list.o
-	ar -rcs libsl.a Node.o sorted-list.o
-	$(COMPILER) $(CCFLAGS) mymalloc.o  $@ $^ -o pa2_test
+	$(COMPILER) $(CCFLAGS) mymalloc.o pa2_test.o sorted-list.o Node.o -o mymallocedlist
 
 mymalloc.o: mymalloc.c mymalloc.h
 	$(COMPILER) $(FLAGS) -c mymalloc.c
@@ -34,11 +31,11 @@ Node.o: Node.c Node.h
 sorted-list.o: sorted-list.c sorted-list.h
 	$(COMPILER) $(CCFLAGS) -c sorted-list.c
 
+pa2_test.o: pa2_test.c
+	$(COMPILER) $(CCFLAGS) -c pa2_test.c
 
 
 clean:
-	rm libsl.a
-	rm pa2_test
 	rm -f mymalloc
 	rm -f mymallocfrag
 	rm -f mymallocedlist
@@ -50,6 +47,5 @@ clean_testf:
 	rm mymallocfrag
 	rm -f *.o
 clean_testsl:
-	rm pa2_test
+	rm mymallocedlist
 	rm -f *.o
-	rm libsl.a
