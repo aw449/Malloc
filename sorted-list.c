@@ -4,7 +4,6 @@
  */
 
 #include "sorted-list.h"
-#include "mymalloc.h"
 #include <stdio.h>
 
 SortedListPtr SLCreate(CompareFuncT cf, DestructFuncT df){

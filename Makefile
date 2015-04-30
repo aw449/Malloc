@@ -5,7 +5,7 @@ OBJECTS = mymalloc.o TestCase1.o FragTest.o Node.o sorted-list.o pa2_test.o
 all: $(OBJECTS)
 	$(COMPILER) $(CCFLAGS) mymalloc.o TestCase1.o  -o mymalloc
 	$(COMPILER) $(CCFLAGS) mymalloc.o FragTest.o  -o mymallocfrag
-	$(COMPILER) $(CCFLAGS) mymalloc.o pa2_test.o -L libsl.a -o mymallocedlist
+	$(COMPILER) $(CCFLAGS) mymalloc.o pa2_test.o sorted-list.o Node.o -o mymallocedlist
 
 test1: mymalloc.o TestCase1.o
 	$(COMPILER) $(CCFLAGS) mymalloc.o TestCase1.o  -o mymalloc
