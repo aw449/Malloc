@@ -4,10 +4,13 @@ Anthony Wong
 #Malloc
 Compilation Instructions
 make compiles all 3 test cases
-make test1 Test Basic test cases
-make testf Test Fragmentation 
-make testsl Test Sorted List with mymalloc
 
+make test1 Test Basic test cases
+    Produces mymalloc
+make testf Test Fragmentation 
+    Produces mymallocfrag
+make testsl Test Sorted List with mymalloc
+    Produces mymallocedlist
 
 Functionality & Design
 For this assignment we were required to implement error checking and functionality from the algorithm presented in CS214's lecture.  Firstly, to improve and decrease fragmentation errors, we changed the memory allocation algorithm's first fit policy, wherein the first available free block is chosen, to a best fit policy, where we locate the block that is the smallest acceptable size for the block.  Our range set is between the size of the block to 1.5 times the size of the block.  If that cannot be found, we choose the smallest block that is available.  We do not check for leaks in our malloc and assume that the programmer will follow good practice and always clean up allocated memory.  
